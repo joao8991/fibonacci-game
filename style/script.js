@@ -11,7 +11,7 @@ var ctx = c.getContext("2d"),
     teachpower = 0,
     bonuschancebase = 0.0002,
     bonusqtd = 0,
-    points = 0,
+    points = 10,
     maxpoints = 0,
     researchpoints = 0,
     totalpoints = 0,
@@ -42,8 +42,8 @@ var ctx = c.getContext("2d"),
     insertSound,
     openwidth = 105,
     anguloBug = 303,
-    drawparticles =1,
-    drawexplosions=1;
+    drawparticles = 1,
+    drawexplosions = 1;
 load();
 createSound(10);
 changeBack();
@@ -52,16 +52,16 @@ function iniciar() {
     soundVerifier("menuSound");
     document.getElementById("menu").style.width = "0";
     document.getElementById("onoff").style.opacity = "0";
+    document.getElementById("banner-container").style.opacity = "0";
     document.getElementById("menu1").style.opacity = "0";
     document.getElementById("menu2").style.opacity = "0";
     document.getElementById("menu3").style.opacity = "0";
     document.getElementById("whiteback").style.opacity = "0";
     document.getElementById("otherback").style.opacity = "0";
-    document.getElementById("menutitle").style.opacity = "0";
 
-    if (tutorialdone == 0)
-        tutorial();
-    setTimeout(function() {
+    tutorial();
+    
+    setTimeout(function () {
         document.getElementById("content").style.display = "block";
         document.getElementById("menu").style.display = "none";
         $("#content").css("opacity", "1");
@@ -71,25 +71,24 @@ function iniciar() {
     atualizardocument();
     iniciarresearchcost();
     apprenticesfunction();
-    setInterval(function() {
+    setInterval(function () {
         apprenticesfunction();
-    }, 1000);
-
-    setInterval(function() {
         save();
     }, 1000);
     achievementsfunc();
     atualtext();
-    for (var p = 1; p < 6; p++)
+    for (var p = 1; p < 6; p++){
         atualizarup(p);
+    }
 
     functionidle();
 
-    setTimeout(function() {
+    setTimeout(function () {
         makeTheBug();
     }, (Math.floor(Math.random() * 4) * 2500 + 15000));
-    if(verlevel>3)
-    basearea = Math.pow(350,2)/(Math.pow(2*(fib(verlevel-1)) + fib(verlevel-2),2));
+    if (verlevel > 3){
+        basearea = Math.pow(350, 2) / (Math.pow(2 * (fib(verlevel - 1)) + fib(verlevel - 2), 2));
+    }
 }
 
 
@@ -106,11 +105,10 @@ function changeBack() {
         document.getElementById("reset2").style.border = "2px solid white";
         document.getElementById("reset2").style.color = "white";
         document.getElementById("tuned").style.color = "white";
-        if(document.getElementById("bugicon")!=null)
-        document.getElementById("bugicon").style.color = "white";
-        document.getElementById("face").style.color = "white";
-        document.getElementById("insta").style.color = "white";
-        document.getElementById("twitter").style.color = "white";
+        document.getElementById("ask-to-click").style.color = "white";
+        if (document.getElementById("bugicon") != null){
+            document.getElementById("bugicon").style.color = "white";
+        }
         document.getElementById("changeSquares").style.color = "white";
         document.getElementById("changeback").style.boxShadow =
             "0 1px 4px white";
@@ -124,7 +122,7 @@ function changeBack() {
             backgroundColorCanvas;
         document.getElementById("top").style.borderBottom =
             "1px solid rgba(360, 360,360, 0.15)";
-            document.getElementById("someOptions").style.borderBottom = "1px solid rgba(360, 360,360, 0.15)";
+        document.getElementById("someOptions").style.borderBottom = "1px solid rgba(360, 360,360, 0.15)";
         $(".menubox").css("box-shadow", "0 1px 4px hsla(0,0%,100%,0.5)");
         $(".menubox").css("color", "white");
         $(".updiv").css("box-shadow", "0 1px 4px hsla(0,0%,100%,0.5)");
@@ -158,16 +156,13 @@ function changeBack() {
         document.getElementById("reset2").style.border = "2px solid black";
         document.getElementById("reset2").style.color = "black";
         document.getElementById("tuned").style.color = "black";
-        if(document.getElementById("bugicon")!=null)
-        document.getElementById("bugicon").style.color = "black";
-        document.getElementById("changeback").style.boxShadow =
-            "0 1px 4px black";
-            document.getElementById("face").style.color = "black";
-            document.getElementById("insta").style.color = "black";
-            document.getElementById("twitter").style.color = "black";
-            document.getElementById("changeSquares").style.color = "black";
+        if (document.getElementById("bugicon") != null)
+            document.getElementById("bugicon").style.color = "black";
+        document.getElementById("changeback").style.boxShadow = "0 1px 4px black";
+        document.getElementById("changeSquares").style.color = "black";
         document.getElementById("soundicon").style.color = "black";
         document.getElementById("apprenticestext").style.color = "black";
+        document.getElementById("ask-to-click").style.color = "black";
         document.getElementById("apprenticestext").style.textShadow =
             "0 1px 2px black";
         document.getElementById("clicktext").style.color = "black";
@@ -201,9 +196,10 @@ function changeBack() {
 }
 
 function createSound(type) {
+    const soundPath = "style/sound/"
     if (type == 1 || type == 10) {
         insertSound = document.createElement("audio");
-        insertSound.setAttribute("src", "style/sound/clickSound.mp3");
+        insertSound.setAttribute("src", soundPath + "clickSound.mp3");
         insertSound.setAttribute("preload", "auto");
         insertSound.setAttribute("controls", "none");
         insertSound.volume = 0.1;
@@ -217,7 +213,7 @@ function createSound(type) {
     }
     if (type == 2 || type == 10) {
         insertSound = document.createElement("audio");
-        insertSound.setAttribute("src", "style/sound/ExplosionSound.mp3");
+        insertSound.setAttribute("src", soundPath + "ExplosionSound.mp3");
         insertSound.setAttribute("preload", "auto");
         insertSound.setAttribute("controls", "none");
         insertSound.volume = 0.4;
@@ -231,7 +227,7 @@ function createSound(type) {
     }
     if (type == 3 || type == 10) {
         insertSound = document.createElement("audio");
-        insertSound.setAttribute("src", "style/sound/upgradeSound.mp3");
+        insertSound.setAttribute("src", soundPath + "upgradeSound.mp3");
         insertSound.setAttribute("preload", "auto");
         insertSound.setAttribute("controls", "none");
         insertSound.volume = 1;
@@ -245,7 +241,7 @@ function createSound(type) {
     }
     if (type == 4 || type == 10) {
         insertSound = document.createElement("audio");
-        insertSound.setAttribute("src", "style/sound/notSound.mp3");
+        insertSound.setAttribute("src", soundPath + "notSound.mp3");
         insertSound.setAttribute("preload", "auto");
         insertSound.setAttribute("controls", "none");
         insertSound.volume = 0.8;
@@ -259,7 +255,7 @@ function createSound(type) {
     }
     if (type == 5 || type == 10) {
         insertSound = document.createElement("audio");
-        insertSound.setAttribute("src", "style/sound/Achievement.mp3");
+        insertSound.setAttribute("src", soundPath + "Achievement.mp3");
         insertSound.setAttribute("preload", "auto");
         insertSound.setAttribute("controls", "none");
         insertSound.volume = 0.2;
@@ -274,7 +270,7 @@ function createSound(type) {
 
     if (type == 6 || type == 10) {
         insertSound = document.createElement("audio");
-        insertSound.setAttribute("src", "style/sound/Menu.mp3");
+        insertSound.setAttribute("src", soundPath + "Menu.mp3");
         insertSound.setAttribute("preload", "auto");
         insertSound.setAttribute("controls", "none");
         insertSound.volume = 0.2;
@@ -289,7 +285,7 @@ function createSound(type) {
 
     if (type == 7 || type == 10) {
         insertSound = document.createElement("audio");
-        insertSound.setAttribute("src", "style/sound/ExplosionSound.mp3");
+        insertSound.setAttribute("src", soundPath + "ExplosionSound.mp3");
         insertSound.setAttribute("preload", "auto");
         insertSound.setAttribute("controls", "none");
         insertSound.volume = 0.1;
@@ -303,7 +299,7 @@ function createSound(type) {
     }
     if (type == 8 || type == 10) {
         insertSound = document.createElement("audio");
-        insertSound.setAttribute("src", "style/sound/researchSound.mp3");
+        insertSound.setAttribute("src", soundPath + "researchSound.mp3");
         insertSound.setAttribute("preload", "auto");
         insertSound.setAttribute("controls", "none");
         insertSound.volume = 1;
@@ -324,17 +320,21 @@ function functionidle() {
         d = d.getTime();
         var idleTime = Math.floor((d - date) / 1000);
         var gains = (maxpoints / 10000) * Math.pow(idleTime, 0.99) / 5;
-        points += gains,totalpoints+=gains;
+        points += gains;
+        totalpoints += gains;
 
-        if (idleTime <= 60)
+        if (idleTime <= 60){
             var string = idleTime % 60 + " seconds";
-        else if (idleTime > 60 && idleTime < 3600)
+        }
+        else if (idleTime > 60 && idleTime < 3600) {
             var string = Math.floor(idleTime / 60) + " minutes and " + idleTime %
                 60 + " seconds";
-        else if (idleTime >= 3600)
+        }
+        else if (idleTime >= 3600){
             var string = Math.floor(idleTime / 3600) + " hours " + Math.floor((
-                    idleTime % 3600) / 60) + " minutes and " + idleTime % 60 +
+                idleTime % 3600) / 60) + " minutes and " + idleTime % 60 +
                 " seconds";
+        }
         var infoIdle = document.createElement("div");
         infoIdle.setAttribute("class", "info");
         infoIdle.setAttribute("id", "infoidle");
@@ -360,14 +360,13 @@ function functionidle() {
         rightside.style.width = "500px";
         rightside.style.position = "absolute";
 
-
         var imgFibo = document.createElement("img");
-        imgFibo.setAttribute("src", "imagens/leofibo.jpg")
+        imgFibo.setAttribute("src", "style/images/leofibo.jpg")
         imgFibo.style.width = "100px";
         var textInfoIdle1 = document.createElement("h2");
         textInfoIdle1.setAttribute("id", "infoidletext1");
         textInfoIdle1.innerHTML = "Welcome back you stayed " + string +
-            ".<br>I choose some of my apprentices to help you while you were out. They helped you with " +
+            ".<br>I chose some of my apprentices to help you while you were out. They helped you with " +
             gains.toFixed(1) + " &Phi;";
         var textInfoIdle2 = document.createElement("h2");
         textInfoIdle2.setAttribute("id", "infoidletext2");
@@ -383,7 +382,6 @@ function functionidle() {
 }
 
 function tutorial() {
-
 
     var tutorialBox = document.createElement("div");
     tutorialBox.setAttribute("class", "info");
@@ -412,7 +410,7 @@ function tutorial() {
 
 
     var imgFibo = document.createElement("img");
-    imgFibo.setAttribute("src", "imagens/leofibo.jpg")
+    imgFibo.setAttribute("src", "style/images/leofibo.jpg")
     imgFibo.style.width = "100px";
     var textInfo1 = document.createElement("h2");
     textInfo1.setAttribute("id", "infoidletext1");
@@ -442,12 +440,14 @@ function removeinfoidle() {
 
 function save() {
 
-  kongregate.stats.submit('Points', points*levelfinished);
-  kongregate.stats.submit('Clicks', clicks);
-  kongregate.stats.submit('Time Played', time);
-  kongregate.stats.submit('Research Points', researchpoints*levelfinished);
-  kongregate.stats.submit('Level', levelfinished);
-    if (typeof(Storage) !== "undefined") {
+    if(isThisKongregate()){
+        kongregate.stats.submit('Points', points * levelfinished);
+        kongregate.stats.submit('Clicks', clicks);
+        kongregate.stats.submit('Time Played', time);
+        kongregate.stats.submit('Research Points', researchpoints * levelfinished);
+        kongregate.stats.submit('Level', levelfinished);
+    }
+    if (typeof (Storage) !== "undefined") {
         localStorage.setItem("a", points);
 
         localStorage.setItem("b", themeh);
@@ -517,7 +517,7 @@ function load() {
         tutorialdone = Number(localStorage.getItem("o"));
 
     if (localStorage.getItem("qwe"))
-      levelfinished = Number(localStorage.getItem("qwe"));
+        levelfinished = Number(localStorage.getItem("qwe"));
 
     if (localStorage.getItem("h0")) {
         for (var a = 0; a < achievement.length; a++)
@@ -549,33 +549,33 @@ function load() {
 }
 
 function atualizardocument() {
-    $(document).ready(function() {
-        $(".researchdivs").hover(function() {
+    $(document).ready(function () {
+        $(".researchdivs").hover(function () {
             $(this).next().css("display", "block");
             $(this).next().css("opacity", "1");
-        }, function() {
+        }, function () {
             $(this).next().css("display", "none");
             $(this).next().css("opacity", "0");
         });
-            $(".researchdivsun").hover(function() {
-                $(this).next().css("display", "block");
-                $(this).next().css("opacity", "1");
-            }, function() {
-                $(this).next().css("display", "none");
-                $(this).next().css("opacity", "0");
-            });
+        $(".researchdivsun").hover(function () {
+            $(this).next().css("display", "block");
+            $(this).next().css("opacity", "1");
+        }, function () {
+            $(this).next().css("display", "none");
+            $(this).next().css("opacity", "0");
+        });
     });
 }
 
 function iniciarresearchcost() {
     for (var i = 0; i <= 7; i++)
         document.getElementsByClassName('rpcost')[i].innerHTML =
-        "Research Points: " + bigNumbers(researchpcr[i]);
+            "Research Points: " + bigNumbers(researchpcr[i]);
     for (var i = 0; i <= 6; i++)
         document.getElementsByClassName('rpcost')[i + 8].innerHTML =
-        "Research Points: " + bigNumbers(researchacr[i]);
+            "Research Points: " + bigNumbers(researchacr[i]);
 
-    document.getElementsByClassName('rpcost')[15].innerHTML ="Research Points: " + bigNumbers(researchpower[7]*2);
+    document.getElementsByClassName('rpcost')[15].innerHTML = "Research Points: " + bigNumbers(researchpower[7] * 2);
 
 }
 
@@ -588,12 +588,12 @@ function nexttext() {
         next = nextvalue();
         if (next >= 1)
             document.getElementById("nextstart").innerHTML =
-            "Next reset: +<span id=nextrp>" +
-            bigNumbers(next) +
-            "</span> research points";
+                "Next reset: +<span id=nextrp>" +
+                bigNumbers(next) +
+                "</span> research points";
         else
             document.getElementById("nextstart").innerHTML =
-            "Next reset: +<span id=nextrp>0</span> research points";
+                "Next reset: +<span id=nextrp>0</span> research points";
     }
 }
 
@@ -627,7 +627,7 @@ function achievementsload() {
     var formula1 = (sumarea(achievement[0] * levelsnewachiv - 1));
     document.getElementById("progbar1").style.width = 90 * points / formula1 +
         "%";
-    document.getElementById("reward1").innerHTML = "Reward: " + formula1/2 + "&Phi;";
+    document.getElementById("reward1").innerHTML = "Reward: " + formula1 / 2 + "&Phi;";
     document.getElementById("levelachiv1").innerHTML = "Level " + achievement[0];
     document.getElementById("prognum1").innerHTML = "Fibonacci Level " +
         achievement[0] * levelsnewachiv;
@@ -648,7 +648,7 @@ function achievementsload() {
     document.getElementById("prognum3").innerHTML = time.toFixed(0) + "/" + (60 *
         Math.pow(10, achievement[2] - 1));
     document.getElementById("prognum3").innerHTML = (60 * Math.pow(10,
-            achievement[2] - 1)) + "/" + (60 * Math.pow(10, achievement[2] - 1)),
+        achievement[2] - 1)) + "/" + (60 * Math.pow(10, achievement[2] - 1)),
         document.getElementById(
             "progbar3").style.width = 90 + "%";
     document.getElementById("reward3").innerHTML = "Reward: " + Math.pow(5,
@@ -667,14 +667,14 @@ function achievementsfunc() {
         document.getElementById("progbar1").style.width = "90%";
     else
         document.getElementById("progbar1").style.width = 90 * points /
-        formula1 + "%";
+            formula1 + "%";
     if (points >= formula1) {
         soundVerifier("achievementSound");
-        addsome(2, formula1/2, 10);
+        addsome(2, formula1 / 2, 10);
         achievement[0]++;
         formula1 = (sumarea(achievement[0] * levelsnewachiv - 1));
-        document.getElementById("reward1").innerHTML = "Reward: " + formula1/2 + "&Phi;";
-        document.getElementById("levelachiv1").innerHTML = "Level " +achievement[0];
+        document.getElementById("reward1").innerHTML = "Reward: " + formula1 / 2 + "&Phi;";
+        document.getElementById("levelachiv1").innerHTML = "Level " + achievement[0];
         document.getElementById("prognum1").innerHTML = "Fibonacci Level " + achievement[0] * levelsnewachiv;
     }
 
@@ -685,10 +685,10 @@ function achievementsfunc() {
     document.getElementById("prognum2").innerHTML = clicks + "/" + formula2;
     if (clicks >= formula2) {
         soundVerifier("achievementSound");
-        addsome(2, formula2/10, 10);
+        addsome(2, formula2 / 10, 10);
         achievement[1]++;
-        document.getElementById("reward2").innerHTML = "Reward: " + formula2 /10 + "&Phi;";
-        document.getElementById("levelachiv2").innerHTML = "Level " +achievement[1];
+        document.getElementById("reward2").innerHTML = "Reward: " + formula2 / 10 + "&Phi;";
+        document.getElementById("levelachiv2").innerHTML = "Level " + achievement[1];
     }
 
     //time
@@ -699,10 +699,10 @@ function achievementsfunc() {
     if (time > (60 * Math.pow(10, achievement[2] - 1)))
         document.getElementById("prognum3").innerHTML = (60 * Math.pow(10,
             achievement[2] - 1)) + "/" + (60 * Math.pow(10, achievement[2] - 1)),
-        document.getElementById(
-            "progbar3").style.width = 90 + "%";
+            document.getElementById(
+                "progbar3").style.width = 90 + "%";
     if (time > (60 * Math.pow(10, achievement[2] - 1)) && clicks > (60 * Math.pow(
-            8, achievement[2] - 1))) {
+        8, achievement[2] - 1))) {
         soundVerifier("achievementSound");
         addsome(2, Math.pow(5, achievement[2]), 10);
         achievement[2]++;
@@ -712,52 +712,53 @@ function achievementsfunc() {
             achievement[2];
     }
 
-    setTimeout(function() {
+    setTimeout(function () {
         achievementsfunc();
-        if(points>maxpoints)
-        maxpoints = points;
+        if (points > maxpoints)
+            maxpoints = points;
     }, 100)
 }
 
 function addsome(tipo, pointshere, particlesnum, posx, posy) {
-  if(drawparticles==1){
-    if (tipo == 2) {
-        for (var a = particlesnum; a > 0; a--){
-            particle.insere(pointshere / particlesnum, 2);
-          }
-    } else if (tipo == 3) {
-        for (var a = particlesnum; a > 0; a--){
-              particle.insere(pointshere / particlesnum, 3, posx, posy);
+    if (drawparticles == 1) {
+        if (tipo == 2) {
+            for (var a = particlesnum; a > 0; a--) {
+                particle.insere(pointshere / particlesnum, 2);
+            }
+        } else if (tipo == 3) {
+            for (var a = particlesnum; a > 0; a--) {
+                particle.insere(pointshere / particlesnum, 3, posx, posy);
+            }
         }
     }
-  }
-  else{
-    for(var i = 0;i<100;i++){
-        setTimeout(function(){
-      points+=pointshere/100;
-      totalpoints+=pointshere/100;
-    },i*10);
+    else {
+        for (var i = 0; i < 100; i++) {
+            setTimeout(function () {
+                points += pointshere / 100;
+                totalpoints += pointshere / 100;
+            }, i * 10);
+        }
     }
-  }
 }
 
 function apprenticesfunction() {
     if (points > 0)
-        powerapp = Math.pow(apprentices,0.9) * Math.pow(points, 0.5) * Math.pow(teachpower,0.9);
+        powerapp = Math.pow(apprentices, 0.9) * Math.pow(points, 0.5) * Math.pow(teachpower, 0.9);
     else
         powerapp = 0;
     document.getElementById("app2").innerHTML = bigNumbers(apprentices);
     if (apprentices >= 1) {
         if (particle.num.length <= 10 && drawparticles == 1)
             particle.insere(powerapp, 1);
-        else{
+        else {
 
-                      for(var i = 0;i<100;i++){
-                          setTimeout(function(){
-                        points+=powerapp/100;
-                        totalpoints+=powerapp/100;
-                      },i*10);
-                      }}
+            for (var i = 0; i < 100; i++) {
+                setTimeout(function () {
+                    points += powerapp / 100;
+                    totalpoints += powerapp / 100;
+                }, i * 10);
+            }
+        }
         document.getElementById("app4").innerHTML = (Math.round(powerapp * 100) /
             100);
     } else {
@@ -822,7 +823,7 @@ function changethemecolor(a) {
 }
 var quadrados = {
     num: [],
-    insere: function(level, power) {
+    insere: function (level, power) {
         this.num.push({
             area: 0,
             lado: 0.01,
@@ -832,7 +833,7 @@ var quadrados = {
         });
         this.cor();
     },
-    cor: function() {
+    cor: function () {
 
         var i = this.num.length;
         if (i > 1) {
@@ -841,10 +842,10 @@ var quadrados = {
             var diferenca1 = Math.abs(cor1 - cor2);
             if (diferenca1 < 50)
                 this.num[i - 1].cor = Math.floor(Math.random() * 361),
-                this.cor();
+                    this.cor();
         }
     },
-    randomize: function() {
+    randomize: function () {
         for (var i = 0; i < quadrados.num.length; i++) {
             this.num[i].cor = Math.floor(Math.random() * 361);
             if (i > 0) {
@@ -856,7 +857,7 @@ var quadrados = {
             }
         }
     },
-    atualizar: function(a) {
+    atualizar: function (a) {
         if (quadrados.num[a] === undefined) {
             var qtd = verlevel - quadrados.num.length;
             for (var i = 0; i <= qtd; i++) {
@@ -876,8 +877,8 @@ var quadrados = {
             this.num[a].lar = Xcentro, this.num[a].alt = Ycentro;
 
         } else if (a == 1) {
-            this.num[a].lar = this.num[a-1].lar-this.num[a].lado,
-            this.num[a].alt = this.num[a-1].alt;
+            this.num[a].lar = this.num[a - 1].lar - this.num[a].lado,
+                this.num[a].alt = this.num[a - 1].alt;
         } else if (a == 2) {
             this.num[a].lar = Xcentro - this.num[a - 1].lado, this.num[
                 a].alt = Ycentro - this.num[a].lado;
@@ -885,26 +886,26 @@ var quadrados = {
             this.num[a].lar = Xcentro + this.num[a - 1].lado / 2, this.num[
                 a].alt = Ycentro - this.num[a - 1].lado;
         } else if (a % 4 == 0) {
-            this.num[a].lar = this.num[a-1].lar+this.num[a-1].lado-this.num[a].lado,
-            this.num[a].alt = this.num[a-1].alt+this.num[a-1].lado;
+            this.num[a].lar = this.num[a - 1].lar + this.num[a - 1].lado - this.num[a].lado,
+                this.num[a].alt = this.num[a - 1].alt + this.num[a - 1].lado;
         } else if (a % 4 == 1) {
 
-              this.num[a].lar = this.num[a-1].lar-this.num[a].lado,
-              this.num[a].alt = this.num[a-1].alt+this.num[a-1].lado-this.num[a].lado;
+            this.num[a].lar = this.num[a - 1].lar - this.num[a].lado,
+                this.num[a].alt = this.num[a - 1].alt + this.num[a - 1].lado - this.num[a].lado;
         } else if (a % 4 == 2) {
-              this.num[a].lar = this.num[a-1].lar,
-              this.num[a].alt = this.num[a-1].alt-this.num[a].lado;
+            this.num[a].lar = this.num[a - 1].lar,
+                this.num[a].alt = this.num[a - 1].alt - this.num[a].lado;
 
         } else if (a % 4 == 3) {
-              this.num[a].lar = this.num[a-1].lar+this.num[a-1].lado,
-              this.num[a].alt = this.num[a-1].alt;
+            this.num[a].lar = this.num[a - 1].lar + this.num[a - 1].lado,
+                this.num[a].alt = this.num[a - 1].alt;
 
         }
 
         this.num[a].centrox = this.num[a].lar + this.num[a].lado / 2;
         this.num[a].centroy = this.num[a].alt + this.num[a].lado / 2;
     },
-    desenha: function() {
+    desenha: function () {
 
         quadrados.atualizar(verlevel - 1);
         for (var a = 0; a < verlevel; a++) {
@@ -957,7 +958,7 @@ var quadrados = {
 }
 var particle = {
     num: [],
-    insere: function(inserepower, tipo, desdex, desdey) {
+    insere: function (inserepower, tipo, desdex, desdey) {
         var side = Math.floor(Math.random() * 4) + 1,
             posx = 0,
             posy = 0;
@@ -988,14 +989,12 @@ var particle = {
             posy = desdey;
         }
         var scale = (Math.sqrt(basearea) + 1) * inserepower / 4;
-        if (scale > 6)
-            scale = 6;
-        if (scale < 1)
-            scale = 1
+        scale = Math.min(6,scale)
+        scale = Math.max(3,scale)
         this.num.push({
             x: posx,
             y: posy,
-            cor: Math.floor(Math.random() * 361) /*rgbToHex(r,g,b)*/ ,
+            cor: Math.floor(Math.random() * 361) /*rgbToHex(r,g,b)*/,
             atuallevel: verlevel - 1,
             atualpower: inserepower,
             velocidade: Math.random() * 4 + 6,
@@ -1004,18 +1003,18 @@ var particle = {
             lado: scale
         });
     },
-    atualizarvelocidade: function(a) {
+    atualizarvelocidade: function (a) {
 
         var razao = Math.sqrt(Math.pow(quadrados.num[this.num[a].atuallevel]
             .centrox - this.num[a].x, 2) + Math.pow(quadrados.num[
                 this.num[a].atuallevel]
-            .centroy - this.num[a].y, 2));
+                .centroy - this.num[a].y, 2));
         this.num[a].vx = (quadrados.num[this.num[a].atuallevel].centrox -
             this.num[a].x) * (this.num[a].velocidade / razao);
         this.num[a].vy = (quadrados.num[this.num[a].atuallevel].centroy -
             this.num[a].y) * (this.num[a].velocidade / razao);
     },
-    desenha: function() {
+    desenha: function () {
         for (var a = 0; a < particle.num.length; a++) {
             ctx.beginPath();
             ctx.rect(this.num[a].x, this.num[a].y, this.num[a].lado,
@@ -1031,12 +1030,12 @@ var particle = {
             if (quadrados.num[this.num[a].atuallevel].lado <= power) {
 
                 var addhere = (this.num[a].atualpower * 10) / 10;
-                            for(var i = 0;i<100;i++){
-                                setTimeout(function(){
-                              points+=addhere/100;
-                              totalpoints+=addhere/100;
-                            },i*10);
-                            }
+                for (var i = 0; i < 100; i++) {
+                    setTimeout(function () {
+                        points += addhere / 100;
+                        totalpoints += addhere / 100;
+                    }, i * 10);
+                }
                 if (points > maxpoints)
                     maxpoints = points;
                 //arrendodamento a 6 casas decimais em baixo
@@ -1048,39 +1047,39 @@ var particle = {
                 this.num[a].atualpower = 0;
                 this.atualizarvelocidade(a);
             } else if (IsInThisQuad(verlevel - 1, this.num[a].x, this.num[
-                    a].y) == true || IsInThisQuad(verlevel - 1, this.num[
-                        a].x + this.num[a].lado,
+                a].y) == true || IsInThisQuad(verlevel - 1, this.num[
+                    a].x + this.num[a].lado,
                     this.num[a].y) == true || IsInThisQuad(verlevel - 1,
-                    this.num[a].x, this.num[a].y + this.num[a].lado) ==
+                        this.num[a].x, this.num[a].y + this.num[a].lado) ==
                 true || IsInThisQuad(
                     verlevel - 1, this.num[a].x + this.num[a].lado,
                     this.num[a].y + this.num[a].lado) == true) {
-                      if(drawexplosions == 1){
-                createExplosion(this.num[a].x, this.num[a].y, "#525252",
-                    this.num[a].atualpower);
-                createExplosion(this.num[a].x, this.num[a].y, "hsl(" +
-                    this.num[a].cor + ",100%,50%)", this.num[a].atualpower
-                );
-              }
+                if (drawexplosions) {
+                    createExplosion(this.num[a].x, this.num[a].y, "#525252",
+                        this.num[a].atualpower);
+                    createExplosion(this.num[a].x, this.num[a].y, "hsl(" +
+                        this.num[a].cor + ",100%,50%)", this.num[a].atualpower
+                    );
+                }
                 test();
                 soundVerifier("ExplosionSound");
                 if (this.num[a].first == 1) {
-                  if(drawexplosions == 1){
-            createExplosion(this.num[a].x, this.num[a].y, "#525252",
-                this.num[a].atualpower);
-            createExplosion(this.num[a].x, this.num[a].y, "hsl(" +
-                this.num[a].cor + ",100%,50%)", this.num[a].atualpower
-            );
-          }
+                    if (drawexplosions) {
+                        createExplosion(this.num[a].x, this.num[a].y, "#525252",
+                            this.num[a].atualpower);
+                        createExplosion(this.num[a].x, this.num[a].y, "hsl(" +
+                            this.num[a].cor + ",100%,50%)", this.num[a].atualpower
+                        );
+                    }
                     test();
                     soundVerifier("ExplosionSound");
                 }
                 var addhere = this.num[a].atualpower;
-                for(var i = 0;i<100;i++){
-                    setTimeout(function(){
-                  points+=addhere/100;
-                  totalpoints+=addhere/100;
-                },i*10);
+                for (var i = 0; i < 100; i++) {
+                    setTimeout(function () {
+                        points += addhere / 100;
+                        totalpoints += addhere / 100;
+                    }, i * 10);
                 }
                 //points += this.num[a].atualpower;
                 //totalpoints += this.num[a].atualpower;
@@ -1103,9 +1102,9 @@ var particle = {
 
 var sellerparticle = {
     num: [],
-    insere: function(qual, qtd1) {
+    insere: function (qual, qtd1) {
         var posx = quadrados.num[verlevel - 1].centrox - quadrados.num[
-                verlevel - 1].lado / 2 + quadrados.num[verlevel - 1].lado * Math.random(),
+            verlevel - 1].lado / 2 + quadrados.num[verlevel - 1].lado * Math.random(),
             posy = quadrados.num[verlevel - 1].centroy - quadrados.num[
                 verlevel - 1].lado / 2 + quadrados.num[verlevel - 1].lado * Math.random();
         var scale = (Math.sqrt(basearea) / 10) * power;
@@ -1117,7 +1116,7 @@ var sellerparticle = {
         this.num.push({
             x: posx,
             y: posy,
-            cor: Math.floor(Math.random() * 361) /*rgbToHex(r,g,b)*/ ,
+            cor: Math.floor(Math.random() * 361) /*rgbToHex(r,g,b)*/,
             atuallevel: verlevel - 1,
             atualpower: power,
             velocidade: Math.random() * 6 + 10,
@@ -1132,7 +1131,7 @@ var sellerparticle = {
             qtd: qtd1
         });
     },
-    atualizarvelocidade: function(a, b) {
+    atualizarvelocidade: function (a, b) {
         switch (b) {
             case 1:
                 this.num[a].irparay = 145;
@@ -1159,13 +1158,13 @@ var sellerparticle = {
 
         var razao = Math.sqrt(Math.pow(this.num[a].irparax - this.num[a]
             .x, 2) + Math.pow(this.num[a].irparay - this.num[a]
-            .y, 2));
+                .y, 2));
         this.num[a].vx = (this.num[a].irparax - this.num[a].x) * (this.num[
             a].velocidade / razao);
         this.num[a].vy = (this.num[a].irparay - this.num[a].y) * (this.num[
             a].velocidade / razao);
     },
-    desenha: function() {
+    desenha: function () {
         for (var a = 0; a < sellerparticle.num.length; a++) {
             ctx.beginPath();
             ctx.rect(this.num[a].x, this.num[a].y, this.num[a].lado,
@@ -1180,13 +1179,13 @@ var sellerparticle = {
                     a].breakatymin &&
                 this.num[a].y <= this.num[a].breakatymax) {
                 soundVerifier("miniExploSound");
-                if(drawexplosions == 1){
-                createSmallExplosion(this.num[a].x, this.num[a].y,
-                    "#525252", this.num[a].lado / 1000);
-                createSmallExplosion(this.num[a].x, this.num[a].y,
-                    "hsl(" + themeh + ",100%,50%)", this.num[a].lado /
+                if (drawexplosions == 1) {
+                    createSmallExplosion(this.num[a].x, this.num[a].y,
+                        "#525252", this.num[a].lado / 1000);
+                    createSmallExplosion(this.num[a].x, this.num[a].y,
+                        "hsl(" + themeh + ",100%,50%)", this.num[a].lado /
                     1000);
-                  }
+                }
 
 
                 upgrade[this.num[a].airpara - 1] += this.num[a].qtd /
@@ -1194,7 +1193,7 @@ var sellerparticle = {
                 upgrade[this.num[a].airpara - 1] = Math.round(upgrade[
                     this.num[a].airpara - 1] * 10) / 10; //medida para arrendodar valor porque antes eram perdidas alguns milesimos
                 if (upgrade[this.num[a].airpara - 1] >= formula(uplevel[
-                        this.num[a].airpara - 1], this.num[a].airpara)) {
+                    this.num[a].airpara - 1], this.num[a].airpara)) {
                     upgrade[this.num[a].airpara - 1] -= formula(uplevel[
                         this.num[a].airpara - 1], this.num[a].airpara);
                     uplevel[this.num[a].airpara - 1]++;
@@ -1236,70 +1235,70 @@ function desenhaEspiral() {
     }
 }
 
-var render = function() {
+var render = function () {
     requestAnimationFrame(render);
     verify();
     desenha();
 };
 
-function ajustarCentro(){
+function ajustarCentro() {
 
-  if(verlevel>3){
-    var ord = verlevel-1;
-    var up = 0;
-    var left = 0;
-    var i = ord;
-    var f = ord;
-    while((i%4)!=2){
-        i--;
-    };
-    while((f%4)!=1){
-        f--;
-    };
-    do{
-      up += quadrados.num[i].lado;
-      i-=4;
-    }while(i>=0)
+    if (verlevel > 3) {
+        var ord = verlevel - 1;
+        var up = 0;
+        var left = 0;
+        var i = ord;
+        var f = ord;
+        while ((i % 4) != 2) {
+            i--;
+        };
+        while ((f % 4) != 1) {
+            f--;
+        };
+        do {
+            up += quadrados.num[i].lado;
+            i -= 4;
+        } while (i >= 0)
 
-    do{
-      left += quadrados.num[f].lado;
-      f-=4;
-    }while(f>=0)
+        do {
+            left += quadrados.num[f].lado;
+            f -= 4;
+        } while (f >= 0)
 
-    if(isNaN(up) || isNaN(left))
-     up=0,left=0;
-                        lado1 = quadrados.num[ord].lado;
-                        if(isNaN(lado1))
-                        lado1 = 0;
-                        lado2 = quadrados.num[ord-1].lado;
-                        if(isNaN(lado2))
-                        lado2 = 0;
-                        lado3 = quadrados.num[ord-2].lado;
-                        if(isNaN(lado3))
-                        lado3 = 0;
-                        if((verlevel%4)==1 ){
-                        y = 40 + (460 - (lado2 +lado1))/2  + up;
-                        x = left + (460 - (lado2 +lado3))/2;
-                        }
-                        else if((verlevel%4)==2){
-                        y = 40 + (460 - (lado2 +lado3))/2  + up;
-                        x = left + (460 - (lado1 + lado2))/2;
-                        }
-                        else if((verlevel%4)==3){
-                        y = 40 + (460 - (lado1 + lado2))/2  + up;
-                        x = left + (460 - (lado2 +lado3))/2;
-                        }
-                        else if((verlevel%4)==0){
-                        y = 40 + (460 - (lado3 + lado2))/2  + up;
-                        x = left + (460 - (lado2 +lado1))/2;
-  }
-  changeCentro(x,y);
-}
-else{
-y = 290;
-x = 230;
-changeCentro(x,y);
-}
+        if (isNaN(up) || isNaN(left))
+            up = 0, left = 0;
+        lado1 = quadrados.num[ord].lado;
+        if (isNaN(lado1))
+            lado1 = 0;
+        lado2 = quadrados.num[ord - 1].lado;
+        if (isNaN(lado2))
+            lado2 = 0;
+        lado3 = quadrados.num[ord - 2].lado;
+        if (isNaN(lado3))
+            lado3 = 0;
+        if ((verlevel % 4) == 1) {
+            y = 40 + (460 - (lado2 + lado1)) / 2 + up;
+            x = left + (460 - (lado2 + lado3)) / 2;
+        }
+        else if ((verlevel % 4) == 2) {
+            y = 40 + (460 - (lado2 + lado3)) / 2 + up;
+            x = left + (460 - (lado1 + lado2)) / 2;
+        }
+        else if ((verlevel % 4) == 3) {
+            y = 40 + (460 - (lado1 + lado2)) / 2 + up;
+            x = left + (460 - (lado2 + lado3)) / 2;
+        }
+        else if ((verlevel % 4) == 0) {
+            y = 40 + (460 - (lado3 + lado2)) / 2 + up;
+            x = left + (460 - (lado2 + lado1)) / 2;
+        }
+        changeCentro(x, y);
+    }
+    else {
+        y = 290;
+        x = 230;
+        changeCentro(x, y);
+    }
 }
 function verify() {
     if (quadrados.num.length < verlevel) {
@@ -1308,16 +1307,16 @@ function verify() {
     if (quadrados.num.length > 2 && changingbase == false) {
         basegoto();
         ajustarCentro();
-  }
+    }
 }
 
 function basegoto() {
 
-    var value = Math.pow(350,2)/(Math.pow(2*(fib(verlevel-1)) + fib(verlevel-2),2));
+    var value = Math.pow(350, 2) / (Math.pow(2 * (fib(verlevel - 1)) + fib(verlevel - 2), 2));
     changingbase = true;
     add = (value - basearea) / (25);
     for (var a = 25; a > 0; a--) {
-        setTimeout(function() {
+        setTimeout(function () {
             basearea += add;
             for (var a = 0; a < verlevel; a++)
                 quadrados.atualizar(a);
@@ -1326,28 +1325,28 @@ function basegoto() {
 
         }, 20 * a)
     }
-    setTimeout(function() {
+    setTimeout(function () {
         changingbase = false;
     }, 1000)
 }
 
-function changeCentro(x,y){
-  var dn= 20; // difference need
-  if(Math.abs(y-Ycentro)>dn ||Math.abs(x-Xcentro)>dn){
-    changingcentro = true;
+function changeCentro(x, y) {
+    var dn = 20; // difference need
+    if (Math.abs(y - Ycentro) > dn || Math.abs(x - Xcentro) > dn) {
+        changingcentro = true;
         addx = (x - Xcentro) / (25);
         addy = (y - Ycentro) / (25);
-    for (var a = 25; a > 0; a--) {
-        setTimeout(function() {
-            Xcentro += addx;
-            Ycentro += addy;
+        for (var a = 25; a > 0; a--) {
+            setTimeout(function () {
+                Xcentro += addx;
+                Ycentro += addy;
 
-        }, 10 * a)
+            }, 10 * a)
+        }
+        setTimeout(function () {
+            changingcentro = false;
+        }, 1000)
     }
-    setTimeout(function() {
-        changingcentro = false;
-    }, 1000)
-}
 }
 render();
 
@@ -1382,7 +1381,7 @@ function bigNumbers(bignum) {
         num = Math.floor(num / 1e15) / 1000 + "Q";
     else if (num >= 1e21 && num < 1e24)
         num = Math.floor(num / 1e18) / 1000 + "s";
-    else if (num >= 1e24 )
+    else if (num >= 1e24)
         num = Math.floor(num / 1e21) / 1000 + "S";
 
     return num;
@@ -1407,7 +1406,7 @@ function atualtext() {
     }
 
     nexttext();
-    setTimeout(function() {
+    setTimeout(function () {
         atualtext()
     }, 100);
 }
@@ -1438,34 +1437,37 @@ function bugadd() {
         parseFloat($("#bugicon").css("top")) + 30);
     $("#bugicon").remove();
     anguloBug = 303;
-    setTimeout(function() {
+    setTimeout(function () {
         makeTheBug();
-    }, (Math.floor(Math.random() * 8) * 2500 + 50000));
+    }, (Math.floor(Math.random() * 8) * 2500 + 30000));
 }
 
 function moveTheBug() {
     if (anguloBug == 303)
         anguloBug = Math.random() * Math.PI * 2;
-    var velocidade = 4 + levelfinished;
+    var velocidade = 3;
     var rot = 0.4;
 
-    if (Math.random() < 0.2) { //teste para ver se vira
-        if (Math.random() <= 0.5) //esquerda ou direita
-            anguloBug += rot + Math.random() * rot;
-        else
-            anguloBug -= rot + Math.random() * rot;
+    if (Math.random() < 0.2) {
+        const rotation = rot + Math.random() * rot;
+        if (Math.random() < 0.5) {   
+            anguloBug += rotation;
+        }
+        else {
+            anguloBug -= rotation;
+        }
     }
 
     //nao passar os limites
     if (parseFloat($("#bugicon").css("left")) > 410)
-        anguloBug = 3.14;
+        anguloBug = Math.PI;
     else if (parseFloat($("#bugicon").css("left")) < 30)
         anguloBug = 0;
 
     if (parseFloat($("#bugicon").css("top")) > 430)
-        anguloBug = 3.14 * (1 / 2);
+        anguloBug = Math.PI * (1 / 2);
     else if (parseFloat($("#bugicon").css("top")) < 82)
-        anguloBug = 3.14 * (3 / 2);
+        anguloBug = Math.PI * (3 / 2);
     var positionx = parseFloat($("#bugicon").css("left")) + Math.cos(anguloBug) *
         velocidade;
     var positiony = parseFloat($("#bugicon").css("top")) - Math.sin(anguloBug) *
@@ -1494,45 +1496,45 @@ function bonusanim() {
     bonustext.setAttribute("onclick", "bonusadd()");
     $("#bonusicon").animate({
         left: "450px"
-    }, 8950,"linear");
-    setTimeout(function() {
+    }, 8950, "linear");
+    setTimeout(function () {
         $("#bonusicon").animate({
             opacity: "0"
         }, 200);
     }, 8950);
-    setTimeout(function() {
+    setTimeout(function () {
         $("#bonusicon").remove();
         clearInterval(alertas);
     }, 9150);
-    var alerts = 0,neweach = 300, animtime= 600;
-    var alertas = setInterval(function(){
-      alerts++;
-      var alert = document.createElement("h3");
-      alert.innerHTML = "CLICK HERE"
-      alert.id = "BonusAlert"+alerts;
-      alert.className = "bonusalert";
-      alert.style.bottom = (Math.random()*20 +50 )+"px";
-      alert.style.left = $("#bonusicon").css("left");
-      alert.style.color = "hsl("+ Math.random()*360 + ",100%,50%)" ;
-      if(backgroundColorCanvas=="white")
-      alert.style.textShadow= "0 1px 4px rgba(0, 0, 0, 0.5)";
-      else
-      alert.style.textShadow= "0 1px 4px rgba(360,360, 360, 0.2)";
-      alert.fontSize = "30px";
-      document.getElementById("content").appendChild(alert);
-          $("#BonusAlert" + alerts).animate({
-              fontSize: "10px",
-              opacity: "0",
-              bottom: (Math.random()*20 +50 )+"px"
-          }, animtime);
-          removeAlert(alerts,animtime);
-    },neweach)
+    var alerts = 0, neweach = 300, animtime = 600;
+    var alertas = setInterval(function () {
+        alerts++;
+        var alert = document.createElement("h3");
+        alert.innerHTML = "CLICK HERE"
+        alert.id = "BonusAlert" + alerts;
+        alert.className = "bonusalert";
+        alert.style.bottom = (Math.random() * 20 + 50) + "px";
+        alert.style.left = $("#bonusicon").css("left");
+        alert.style.color = "hsl(" + Math.random() * 360 + ",100%,50%)";
+        if (backgroundColorCanvas == "white")
+            alert.style.textShadow = "0 1px 4px rgba(0, 0, 0, 0.5)";
+        else
+            alert.style.textShadow = "0 1px 4px rgba(360,360, 360, 0.2)";
+        alert.fontSize = "30px";
+        document.getElementById("content").appendChild(alert);
+        $("#BonusAlert" + alerts).animate({
+            fontSize: "10px",
+            opacity: "0",
+            bottom: (Math.random() * 20 + 50) + "px"
+        }, animtime);
+        removeAlert(alerts, animtime);
+    }, neweach)
 }
-function removeAlert(alerts,animtime){
+function removeAlert(alerts, animtime) {
     var a = alerts;
-  setTimeout(function() {
-      $("#BonusAlert"+a).remove();
-  }, animtime+10);
+    setTimeout(function () {
+        $("#BonusAlert" + a).remove();
+    }, animtime + 10);
 }
 
 function bonusadd(a) {
@@ -1550,22 +1552,22 @@ function test(qual) {
             maxwidth);
         if (test >= maxwidth) //document.getElementById("upgrade"+qual).className ="upgradenow"; animacao quando o upgrade esta disponivel
             document.getElementsByClassName("backbar")[qual - 1].style.boxShadow =
-            "0 1px 4px hsla(" + themeh + ", 100%, 50%, 1)";
+                "0 1px 4px hsla(" + themeh + ", 100%, 50%, 1)";
         else {
             if (backgroundColorCanvas == "white")
                 document.getElementsByClassName("backbar")[qual - 1].style.boxShadow =
-                "0 1px 4px hsla(0, 0%, 0%, 0.5)";
+                    "0 1px 4px hsla(0, 0%, 0%, 0.5)";
             else
                 document.getElementsByClassName("backbar")[qual - 1].style.boxShadow =
-                "0 1px 4px hsla(0, 0%, 100%, 0.5)";
+                    "0 1px 4px hsla(0, 0%, 100%, 0.5)";
 
         }
         if (test > maxwidth || upgrade[qual - 1] > 0)
             test = maxwidth;
 
         document.getElementById("bar" + qual).style.width = test + "px";
-        if(qual==2 && uplevel[1]==25)
-        document.getElementById("bar" + qual).style.width = maxwidth + "px";
+        if (qual == 2 && uplevel[1] == 25)
+            document.getElementById("bar" + qual).style.width = maxwidth + "px";
     }
 
 }
@@ -1573,7 +1575,7 @@ function test(qual) {
 function upgradefunc(qual) {
 
     var qtd = formula(uplevel[qual - 1] + buying[qual - 1], qual);
-    if ((points >= qtd && qual!=2)||(points >= qtd && qual==2 && uplevel[1]+buying[1]<25)) {
+    if ((points >= qtd && qual != 2) || (points >= qtd && qual == 2 && uplevel[1] + buying[1] < 25)) {
         soundVerifier("upgradeSound");
         buying[qual - 1]++;
         for (var d = 10; d > 0; d--)
@@ -1601,7 +1603,7 @@ function formula(a, qual) {
     else if (qual == 5)
         var b = 100,
             c = 2;
-    var isto = Math.round(b*Math.pow(a, c ));
+    var isto = Math.round(b * Math.pow(a, c));
     return isto
 }
 
@@ -1609,54 +1611,54 @@ function atualizarup(qual) {
     var maxwidth = 150;
     document.getElementById("uplevel" + qual).innerHTML = "level " + uplevel[
         qual - 1];
-        if(qual!=2 || uplevel[1] !=25)
-    document.getElementById("tonext" + qual).innerHTML = bigNumbers((formula(uplevel[qual - 1], qual) - upgrade[qual - 1])) + " &Phi;";
-        else
+    if (qual != 2 || uplevel[1] != 25)
+        document.getElementById("tonext" + qual).innerHTML = bigNumbers((formula(uplevel[qual - 1], qual) - upgrade[qual - 1])) + " &Phi;";
+    else
         document.getElementById("tonext2").innerHTML = "Max level";
     power = up1Value(0);
-    if(levelfinished<2)
-    document.getElementById("power").innerHTML = power.toFixed(1);
+    if (levelfinished < 2)
+        document.getElementById("power").innerHTML = power.toFixed(1);
     else
-    document.getElementById("power").innerHTML = power.toFixed(2);
+        document.getElementById("power").innerHTML = power.toFixed(2);
     bonuschance = up2Value(0);
     bonusqtd = up3Value(0);
     apprentices = up4Value(0);
     teachpower = up5Value(0);
 }
 
-function levelValue(){
-  return Math.pow(2,(levelfinished-1))
+function levelValue() {
+    return Math.pow(2, (levelfinished - 1))
 }
-function up1Value(a){
-  return ((uplevel[0]+a) * 0.1 * (researchpower[0] + 1) * (researchpower[4] + 1) *(researchpower[7] + 1))/levelValue();
+function up1Value(a) {
+    return ((uplevel[0] + a) * 0.1 * (researchpower[0] + 1) * (researchpower[4] + 1) * (researchpower[7] + 1)) / levelValue();
 }
-function up2Value(a){
-  return  (uplevel[1]+a) * bonuschancebase * (researchpower[2] + 1) * (researchpower[3] + 1) * (researchpower[5] + 1);
+function up2Value(a) {
+    return (uplevel[1] + a) * bonuschancebase * (researchpower[2] + 1) * (researchpower[3] + 1) * (researchpower[5] + 1);
 }
-function up3Value(a){
-  return ((uplevel[2]+a) * 2 * (researchpower[1] + 1) * (researchpower[6] + 1) * (researchpower[7] + 1))/levelValue();
+function up3Value(a) {
+    return ((uplevel[2] + a) * 2 * (researchpower[1] + 1) * (researchpower[6] + 1) * (researchpower[7] + 1)) / levelValue();
 }
-function up4Value(a){
-  return Math.floor(((uplevel[3]+a)- 1 + researchapp[0]) * (researchapp[1] + 1) * ((researchapp[2]*0.5)  + 1) * ((researchapp[3]*0.5) + 1) * ((researchapp[4] * 0.5) +1) * ((researchapp[6]*0.5) + 1));
+function up4Value(a) {
+    return Math.floor(((uplevel[3] + a) - 1 + researchapp[0]) * (researchapp[1] + 1) * ((researchapp[2] * 0.5) + 1) * ((researchapp[3] * 0.5) + 1) * ((researchapp[4] * 0.5) + 1) * ((researchapp[6] * 0.5) + 1));
 }
-function up5Value(a){
-  return ((uplevel[4]+a) * 0.002 * ((researchapp[6]*0.5) + 1) * ((researchapp[5] *0.5) + 1)* ((researchapp[3]*0.5) + 1) * ((researchapp[1]*0.5)  + 1))/levelValue();
+function up5Value(a) {
+    return ((uplevel[4] + a) * 0.002 * ((researchapp[6] * 0.5) + 1) * ((researchapp[5] * 0.5) + 1) * ((researchapp[3] * 0.5) + 1) * ((researchapp[1] * 0.5) + 1)) / levelValue();
 }
 
 
 
 //researchfunction
 
-function finishthislevel(){
-  if(researchapp[6] == 1 && researchpower[7] == 1 && (researchpower[7]*2 <= researchpoints)){
-  levelfinished++;
-  soundVerifier("achievementSound");
-  reset();
-  resetResearch();
-  researchpoints=0;
-  unlockresearchp(4);//para resetar o numero no topo
-  document.getElementById("rf").style.display = "none";
-}
+function finishthislevel() {
+    if (researchapp[6] == 1 && researchpower[7] == 1 && (researchpower[7] * 2 <= researchpoints)) {
+        levelfinished++;
+        soundVerifier("achievementSound");
+        reset();
+        resetResearch();
+        researchpoints = 0;
+        unlockresearchp(4);//para resetar o numero no topo
+        document.getElementById("rf").style.display = "none";
+    }
 }
 
 function unlockresearchp(a) {
@@ -1711,7 +1713,7 @@ function rpfunc() {
                 "researchdivslocked";
         }
     } else if (researchpower[4] == 0 && researchpower[5] == 0 && researchpower[
-            6] == 0) {
+        6] == 0) {
         document.getElementById("rp5").className = "researchdivs";
         document.getElementById("rp6").className = "researchdivs";
         document.getElementById("rp7").className = "researchdivs";
@@ -1806,93 +1808,11 @@ function rpfunc() {
         document.getElementById("ra7").className = "researchdivsun";
     }
 
-if(researchapp[6] == 1 && researchpower[7]==1){
-    document.getElementById("rf").style.display = "block",document.getElementById("finishleveltext").innerHTML = "Finish level " + levelfinished;
+    if (researchapp[6] == 1 && researchpower[7] == 1) {
+        document.getElementById("rf").style.display = "block", document.getElementById("finishleveltext").innerHTML = "Finish level " + levelfinished;
 
-}
+    }
 
 }
 
 //helpers
-
-function fib(n) {
-    if (n < 2) {
-        return n
-    } else {
-        return fib(n - 1) + fib(n - 2)
-    }
-}
-
-function sumfib(n) {
-    return (fib(n + 2) - fib(3) + 1);
-}
-
-function sumarea(n) {
-    var value = 0;
-    for (n; n >= 1; n--) {
-        value += Math.pow(fib(n), 2);
-    }
-    return value;
-}
-
-function componentToHex(c) {
-    var hex = c.toString(16);
-    return hex.length == 1 ? "0" + hex : hex;
-}
-
-function rgbToHex(r, g, b) {
-    return "#" + componentToHex(r) + componentToHex(g) + componentToHex(b);
-}
-
-function IsInThisQuad(a, x, y) {
-if(verlevel>3){
-      var x1 = quadrados.num[a].centrox - (quadrados.num[a].lado / 2);
-      var x2 = quadrados.num[a].centrox + (quadrados.num[a].lado / 2);
-      var y1 = quadrados.num[a].centroy - (quadrados.num[a].lado / 2);
-      var y2 = quadrados.num[a].centroy + (quadrados.num[a].lado / 2);
-  if((a%4)==0){
-
-        var x3 = quadrados.num[a-2].centrox - (quadrados.num[a-2].lado / 2);
-        var x4 = quadrados.num[a-1].centrox + (quadrados.num[a-1].lado / 2);
-        var y3 = quadrados.num[a-1].centroy - (quadrados.num[a-1].lado / 2);
-        var y4 = quadrados.num[a-1].centroy + (quadrados.num[a-1].lado / 2);
-  }
-  else if((a%4)==1){
-
-          var x3 = quadrados.num[a-1].centrox - (quadrados.num[a-1].lado / 2);
-          var x4 = quadrados.num[a-1].centrox + (quadrados.num[a-1].lado / 2);
-          var y3 = quadrados.num[a-2].centroy - (quadrados.num[a-2].lado / 2);
-          var y4 = quadrados.num[a-1].centroy + (quadrados.num[a-1].lado / 2);
-  }
-
-  else if((a%4)==2){
-
-          var x3 = quadrados.num[a-1].centrox - (quadrados.num[a-1].lado / 2);
-          var x4 = quadrados.num[a-2].centrox + (quadrados.num[a-2].lado / 2);
-          var y3 = quadrados.num[a-1].centroy - (quadrados.num[a-1].lado / 2);
-          var y4 = quadrados.num[a-1].centroy + (quadrados.num[a-1].lado / 2);
-  }
-
-  else if((a%4)==3){
-
-          var x3 = quadrados.num[a-1].centrox - (quadrados.num[a-1].lado / 2);
-          var x4 = quadrados.num[a-1].centrox + (quadrados.num[a-1].lado / 2);
-          var y3 = quadrados.num[a-1].centroy - (quadrados.num[a-1].lado / 2);
-          var y4 = quadrados.num[a-2].centroy + (quadrados.num[a-2].lado / 2);
-  }
-          if ((x >= x1 && x <= x2 && y >= y1 && y <= y2)||(x >= x3 && x <= x4 && y >= y3 && y <= y4))
-              return true
-}
-  else {
-
-    for (a; a >= 0; a--) {
-        var x1 = quadrados.num[a].centrox - (quadrados.num[a].lado / 2);
-        var x2 = quadrados.num[a].centrox + (quadrados.num[a].lado / 2);
-        var y1 = quadrados.num[a].centroy - (quadrados.num[a].lado / 2);
-        var y2 = quadrados.num[a].centroy + (quadrados.num[a].lado / 2);
-
-        if (x >= x1 && x <= x2 && y >= y1 && y <= y2)
-            return true
-    }
-  }
-}

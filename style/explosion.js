@@ -10,52 +10,48 @@ function randomFloat(min, max) {
 /*
  * A single explosion explosion
  */
-	function Particle ()
-	{
-		this.scale = 1.0;
-		this.x = 0;
-		this.y = 0;
-		this.radius = 20;
-		this.color = "#000";
-		this.velocityX = 0;
-		this.velocityY = 0;
-		this.scaleSpeed = 0.5;
+function Particle() {
+    this.scale = 1.0;
+    this.x = 0;
+    this.y = 0;
+    this.radius = 20;
+    this.color = "#000";
+    this.velocityX = 0;
+    this.velocityY = 0;
+    this.scaleSpeed = 0.5;
 
-    setTimeout(function() {
+    setTimeout(function () {
         explosions.splice(0, 1);
     }, 2000)
-		this.update = function(ms)
-		{
-			// shrinking
-			this.scale -= this.scaleSpeed * ms / 1000.0;
+    this.update = function (ms) {
+        // shrinking
+        this.scale -= this.scaleSpeed * ms / 1000.0;
 
-			if (this.scale <= 0)
-			{
-				this.scale = 0;
-			}
+        if (this.scale <= 0) {
+            this.scale = 0;
+        }
 
-			// moving away from explosion center
-			this.x += this.velocityX * ms/1000.0;
-			this.y += this.velocityY * ms/1000.0;
-		};
-		this.draw = function(context2D)
-		{
-			// translating the 2D context to the particle coordinates
-			context2D.save();
-			context2D.translate(this.x, this.y);
-			context2D.scale(this.scale, this.scale);
+        // moving away from explosion center
+        this.x += this.velocityX * ms / 1000.0;
+        this.y += this.velocityY * ms / 1000.0;
+    };
+    this.draw = function (context2D) {
+        // translating the 2D context to the particle coordinates
+        context2D.save();
+        context2D.translate(this.x, this.y);
+        context2D.scale(this.scale, this.scale);
 
-			// drawing a filled circle in the particle's local space
-			context2D.beginPath();
-			context2D.arc(0, 0, this.radius, 0, Math.PI*2, true);
-			context2D.closePath();
+        // drawing a filled circle in the particle's local space
+        context2D.beginPath();
+        context2D.arc(0, 0, this.radius, 0, Math.PI * 2, true);
+        context2D.closePath();
 
-			context2D.fillStyle = this.color;
-			context2D.fill();
+        context2D.fillStyle = this.color;
+        context2D.fill();
 
-			context2D.restore();
-		  };
-	}
+        context2D.restore();
+    };
+}
 
 
 /*
@@ -67,22 +63,13 @@ function randomFloat(min, max) {
  * 	color - explosions' color
  */
 function createExplosion(x, y, color, p) {
-    //var minSize = (6-(5.5/Math.sqrt(basearea+1))) ;
-    //var maxSize = (10-(9/Math.sqrt(basearea+1))) ;
-    var v = (Math.sqrt(basearea)+1)*p; //tamanho do lado dum cubo com 1
-    var minSize = v*(1/3);
-    if(minSize>=10)
-    minSize = 10;
-    var maxSize = v*(2/3);
-    if(maxSize>=20)
-    maxSize = 20;
+    
+    var v = (Math.sqrt(basearea) + 1) * p; //tamanho do lado dum cubo com 1
+    var minSize = Math.min(10, v * (1 / 3));
+    var maxSize = Math.min(20, v * (2 / 3));
     var count = (Math.floor(Math.random() * 4) + 6);
-    var minSpeed = v*5 ;
-    if(minSpeed>=50)
-    minSpeed = 50;
-    var maxSpeed = v*10 ;
-    if(maxSpeed>=150)
-    maxSpeed = 150;
+    var minSpeed = Math.min(50,v * 5);
+    var maxSpeed = Math.min(150,v * 10);
     var minScaleSpeed = 1.0;
     var maxScaleSpeed = 4.0;
 
@@ -154,7 +141,7 @@ function update(frameDelay) {
 }
 
 
-window.addEvent("load", function() {
+window.addEvent("load", function () {
     // canvas and 2D context initialization
     canvas = document.getElementById("myCanvas");
     context2D = canvas.getContext("2d");
@@ -164,7 +151,7 @@ window.addEvent("load", function() {
     var frameRate = 60.0;
     var frameDelay = 1000.0 / frameRate;
 
-    setInterval(function() {
+    setInterval(function () {
         update(frameDelay);
 
     }, frameDelay);

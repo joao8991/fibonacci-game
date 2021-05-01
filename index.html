@@ -6,35 +6,40 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <script src='https://cdn1.kongregate.com/javascripts/kongregate_api.js'></script>
+    <script src="https://sdk.crazygames.com/crazygames-sdk-v1.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/mootools/1.6.0/mootools.min.js"></script>
     <meta charset="utf-8" />
 </head>
-  <script type='text/javascript'>
+<script type='text/javascript'>
+    if (window.location.host === "www.kongregate.com") {
+        kongregateAPI.loadAPI(function () {
+            window.kongregate = kongregateAPI.getAPI();
+        });
+    }
+    else {
+        const crazysdk = window.CrazyGames.CrazySDK.getInstance(); //Getting the SDK
+        crazysdk.init(); //Initializing the SDK, call as early as possible
+    }
 
-    kongregateAPI.loadAPI(function(){
-      window.kongregate = kongregateAPI.getAPI();
-      updateFields();
-
-      kongregate.services.addEventListener('login', function(){
-        updateFields();
-      });
-    });
-  </script>
+</script>
 
 <body>
     <div id="menu" class="content">
         <div id="spacemenu">
-          <a href="https://facebook.com/MetalstarGames" target="_blank"><h1 id="menutitle">MetalStar Games</h1></a>
-    <div class="menubox" id="menu1" onclick="iniciar()">Play</div>
-    <div class="menubox" id="menu2" >Sound</div> <div onclick="onoff()" id="onoff"class="menubox"><i id="iconsoundmenu" class="fa fa-power-off" style="font-size:30px; line-height:52px; color:red; transition:0.2s;"></i></div>
-    <div class="menubox" id="menu3"> Background color</div> <div onclick="menuchange(1)" id="whiteback" class="menubox"></div> <div onclick="menuchange(2)" id="otherback" class="menubox"></div>
-            </div>
+            <div class="menubox" id="menu1" onclick="iniciar()">Play Fibonacci Cliker</div>
+            <div class="menubox" id="menu2">Sound</div>
+            <div onclick="onoff()" id="onoff" class="menubox"><i id="iconsoundmenu" class="fa fa-power-off"
+                    style="font-size:30px; line-height:52px; color:red; transition:0.2s;"></i></div>
+            <div class="menubox" id="menu3"> Background color</div>
+            <div onclick="menuchange(1)" id="whiteback" class="menubox"></div>
+            <div onclick="menuchange(2)" id="otherback" class="menubox"></div>
+        </div>
+        <div id="banner-container">
+            <img src="style/images/cg_purple.png" alt="">
+        </div>
     </div>
     <div id="content" class="content" style="display:none">
-    <div id="socialdiv" class="info">
-      <h2 style="position:absolute;top:3px;right:5px;margin:0;cursor:pointer;font-size:20px" onclick="closeSocial()">X</h2>
-    </div>
         <div id="topbar">
             <div id="powerzone">
                 <h2 id="poweraux" class="nn">Click Power</h2>
@@ -58,10 +63,12 @@
                 <h4>Click power is the qtd of &Phi; you create for every click on the canvas</h4>
             </div>
             <div class=info id="infoapp">
-                <h4>Apprentices power it's based on teach power, the number of apprentices you got and your atual &Phi;</h4>
+                <h4>Apprentices power it's based on teach power, the number of apprentices you got and your atual &Phi;
+                </h4>
             </div>
             <div class=info id="inforp">
-                <h4>Research points are created based on your total &Phi; ever.<br>Check settings to know how much you have.</h4>
+                <h4>Research points are created based on your total &Phi; ever.<br>Check settings to know how much you
+                    have.</h4>
             </div>
             <div class=info id="infopts">
                 <h4>&Phi; is the representation of knowledge. You can use it to develop</h4>
@@ -76,28 +83,32 @@
                 <h4 id="particlestext">Disable particles effects</h4>
             </div>
             <div class=info id="infosquares" style="left: 94px;top: 53px;">
-                <h4 >Randomize square colors</h4>
+                <h4>Randomize square colors</h4>
             </div>
 
             <div class=info id="infochangecanvas">
                 <h4>Change theme</h4>
             </div>
         </div>
-        <canvas id="myCanvas" height="500px" width="890px"style="z-index:0"></canvas>
+        <canvas id="myCanvas" height="500px" width="890px" style="z-index:0"></canvas>
         <div id="someOptions">
-        <i class="fa fa-volume-up" id="soundicon" onclick="onoff()"></i>
-        <div id="changeback" onclick="changeBack()"></div>
-        <i class="fa fa-paint-brush" id="changeSquares" style="font-size:22px" onclick="quadrados.randomize()"></i>
-        <div id="fibospiral" onclick="spiral()"><h2>S</h2></div>
-        <div id="exploon" onclick="onoffgraphs(2)"><h2>E</h2></div>
-        <div id="particleson" onclick="onoffgraphs(1)"><h2>P</h2></div>
-        <div id="buginfo"><i class='fa fa-bug' id="buginfoicon"style="left: 154px;position: absolute;top: 2px;"></i></div>
+            <i class="fa fa-volume-up" id="soundicon" onclick="onoff()"></i>
+            <div id="changeback" onclick="changeBack()"></div>
+            <i class="fa fa-paint-brush" id="changeSquares" style="font-size:22px" onclick="quadrados.randomize()"></i>
+            <div id="fibospiral" onclick="spiral()">
+                <h2>S</h2>
+            </div>
+            <div id="exploon" onclick="onoffgraphs(2)">
+                <h2>E</h2>
+            </div>
+            <div id="particleson" onclick="onoffgraphs(1)">
+                <h2>P</h2>
+            </div>
+            <div id="buginfo"><i class='fa fa-bug' id="buginfoicon"
+                    style="left: 154px;position: absolute;top: 2px;"></i></div>
 
-
-        <a href="https://twitter.com/MetalstarGames" target="_blank"><i id="twitter" class="fa fa-twitter-square" ></i></a>
-        <a href="https://facebook.com/MetalstarGames" target="_blank"><i id="face" class="fa fa-facebook-square" ></i></a>
-        <a href="https://www.instagram.com/joaoonunees" target="_blank"><i id="insta" class="fa fa-instagram" ></i></a>
         </div>
+        <div id="ask-to-click" class="reduced">CLICK</div>
         <div id="rightcontent">
             <div id=top>
                 <div id=topbut1 class=topbut>
@@ -109,17 +120,18 @@
                     <i class='fa fa-trophy'></i>
                 </div>
                 <div id=topbut3 class=topbut>
-                <i class='fa fa-university'></i>
+                    <i class='fa fa-university'></i>
                     <h3>Research</h3>
                 </div>
                 <div id=topbut4 class=topbut>
-                <i class='fa fa-cog' style="right:-10px"></i>
+                    <i class='fa fa-cog' style="right:-10px"></i>
                     <h3>Setts</h3>
                 </div>
                 <div id="open"></div>
             </div>
             <div class=contentbott id=up>
-                <h1 class='textup' id='clicktext'>Click upgrades <i class='fa fa-caret-right setaopen' id='setaupg'></i></h1>
+                <h1 class='textup' id='clicktext'>Click upgrades <i class='fa fa-caret-right setaopen' id='setaupg'></i>
+                </h1>
                 <div id='clickupdiv'>
                     <div id='cover1' class="close1"></div>
                     <div class=updiv id=up1>
@@ -128,9 +140,9 @@
                                 <h4>It is the power of each block you shoot each click</h4>
                             </div>
                             <h3 class=upwhat id=upwhat1>Click power</h3>
-                                <div class=info id="infolevel1">
-                                    <h4 id="textinfolevel1"></h4>
-                                </div>
+                            <div class=info id="infolevel1">
+                                <h4 id="textinfolevel1"></h4>
+                            </div>
                             <h3 class=uplevel id=uplevel1></h3>
                         </div>
                         <div class=rightup>
@@ -146,12 +158,13 @@
                 <div class=updiv id=up2>
                     <div class=leftup>
                         <div class=info id="infoup2">
-                            <h4 id="textinfoup2">It is the probability to appear a bonus item in the bottom of the left canvas</h4>
+                            <h4 id="textinfoup2">It is the probability to appear a bonus item in the bottom of the left
+                                canvas</h4>
                         </div>
                         <h3 class=upwhat id=upwhat2>Bonus chance</h3>
-                            <div class=info id="infolevel2">
-                                <h4 id="textinfolevel2"></h4>
-                            </div>
+                        <div class=info id="infolevel2">
+                            <h4 id="textinfolevel2"></h4>
+                        </div>
                         <h3 class=uplevel id=uplevel2></h3>
                     </div>
                     <div class=rightup>
@@ -166,12 +179,13 @@
                 <div class=updiv id=up3>
                     <div class=leftup>
                         <div class=info id="infoup3">
-                            <h4 id="textinfoup3">Is the amount of times the bonus multiplies the number of blocks shoot</h4>
+                            <h4 id="textinfoup3">Is the amount of times the bonus multiplies the number of blocks shoot
+                            </h4>
                         </div>
                         <h3 class=upwhat id=upwhat3>Bonus multiplier</h3>
-                            <div class=info id="infolevel3">
-                                <h4 id="textinfolevel3"></h4>
-                            </div>
+                        <div class=info id="infolevel3">
+                            <h4 id="textinfolevel3"></h4>
+                        </div>
                         <h3 class=uplevel id=uplevel3></h3>
                     </div>
                     <div class=rightup>
@@ -183,7 +197,8 @@
                         </div>
                     </div>
                 </div>
-                <h1 class='textup' id='apprenticestext'>Apprentices upgrades <i class='fa fa-caret-right' id='setaapp'></i></h1>
+                <h1 class='textup' id='apprenticestext'>Apprentices upgrades <i class='fa fa-caret-right'
+                        id='setaapp'></i></h1>
                 <div id='apprenticesupdiv'>
                     <div id='cover2'></div>
                     <div class=updiv id=up4>
@@ -192,9 +207,9 @@
                                 <h4 id="textinfoup4">It is the number of apprentices you are teaching</h4>
                             </div>
                             <h3 class=upwhat id="upwhat4">Apprentices</h3>
-                                <div class=info id="infolevel4">
-                                    <h4 id="textinfolevel4"></h4>
-                                </div>
+                            <div class=info id="infolevel4">
+                                <h4 id="textinfolevel4"></h4>
+                            </div>
                             <h3 class=uplevel id=uplevel4></h3>
                         </div>
                         <div class=rightup>
@@ -212,9 +227,9 @@
                                 <h4 id="textinfoup5">It is the teach power you got.</h4>
                             </div>
                             <h3 class=upwhat id="upwhat5">Teach Power</h3>
-                                <div class=info id="infolevel5">
-                                    <h4 id="textinfolevel5"></h4>
-                                </div>
+                            <div class=info id="infolevel5">
+                                <h4 id="textinfolevel5"></h4>
+                            </div>
                             <h3 class=uplevel id=uplevel5></h3>
                         </div>
                         <div class=rightup>
@@ -228,8 +243,12 @@
                     </div>
                     <div class=updiv id=up6>
                         <div class=leftup>
-                            <h4 class=upwhat style="cursor: default;text-transform: none; font-size: 14px; line-height: 24px; margin: 15px 0 0 5px;font-family: 'Aldrich', sans-serif;letter-spacing: -0.5px;">You need to build a school</h3>
-                            <h4 class=uplevel id=uplevel6 style="cursor: default;text-transform: none; font-size: 14px; line-height: 24px; margin: 0 0 15px 5px;font-family: 'Aldrich', sans-serif;letter-spacing: -0.5px;">to unlock apprentices upgrades</h3>
+                            <h4 class=upwhat
+                                style="cursor: default;text-transform: none; font-size: 14px; line-height: 24px; margin: 15px 0 0 5px;font-family: 'Aldrich', sans-serif;letter-spacing: -0.5px;">
+                                You need to build a school</h3>
+                                <h4 class=uplevel id=uplevel6
+                                    style="cursor: default;text-transform: none; font-size: 14px; line-height: 24px; margin: 0 0 15px 5px;font-family: 'Aldrich', sans-serif;letter-spacing: -0.5px;">
+                                    to unlock apprentices upgrades</h3>
                         </div>
                         <div class=rightup>
                             <div class="toupgradefunc" id="gotoresearch">
@@ -242,32 +261,36 @@
                 </div>
             </div>
             <div class=contentbott id=ach>
-                <h1>Achievements</h1> <div class="achived" id="achiv1">
-<h2 class="what">Fibonacci Level</h2>
-<h3 class="levelachiv" id="levelachiv1"></h3>
-<div class="progbar" id="progbar1" ></div>
-<div class="backbar"></div><h3 class="prognum" id="prognum1"></h3>
-<h2 class="reward" id="reward1"></h2>
-</div>
+                <h1>Achievements</h1>
+                <div class="achived" id="achiv1">
+                    <h2 class="what">Fibonacci Level</h2>
+                    <h3 class="levelachiv" id="levelachiv1"></h3>
+                    <div class="progbar" id="progbar1"></div>
+                    <div class="backbar"></div>
+                    <h3 class="prognum" id="prognum1"></h3>
+                    <h2 class="reward" id="reward1"></h2>
+                </div>
                 <div class="achived" id="achiv2">
-<h2 class="what">Clicks</h2>
-<h3 class="levelachiv" id="levelachiv2"></h3>
-<div class="progbar" id="progbar2" ></div>
-<div class="backbar"></div><h3 class="prognum" id="prognum2"></h3>
-<h2 class="reward" id="reward2"></h2>
-</div>
+                    <h2 class="what">Clicks</h2>
+                    <h3 class="levelachiv" id="levelachiv2"></h3>
+                    <div class="progbar" id="progbar2"></div>
+                    <div class="backbar"></div>
+                    <h3 class="prognum" id="prognum2"></h3>
+                    <h2 class="reward" id="reward2"></h2>
+                </div>
                 <div class="achived" id="achiv3">
-<h2 class="what">Time Played</h2>
-<h3 class="levelachiv" id="levelachiv3"></h3>
-<div class="progbar" id="progbar3" ></div>
-<div class="backbar"></div><h3 class="prognum" id="prognum3"></h3>
-<h2 class="reward" id="reward3"></h2>
-</div>
+                    <h2 class="what">Time Played</h2>
+                    <h3 class="levelachiv" id="levelachiv3"></h3>
+                    <div class="progbar" id="progbar3"></div>
+                    <div class="backbar"></div>
+                    <h3 class="prognum" id="prognum3"></h3>
+                    <h2 class="reward" id="reward3"></h2>
+                </div>
             </div>
             <div class=contentbott id=research>
                 <h1>Research</h1> <i class="fa fa-undo" id="reset2" onclick="resetResearch()"></i>
 
-                <div class="info" id="inforeset"style="left:160px; top: 10px;">
+                <div class="info" id="inforeset" style="left:160px; top: 10px;">
                     <h4>Reset your researchs and give your research points back</h4>
                 </div>
                 <div id="rpower">
@@ -293,7 +316,8 @@
                         <h4>Requires:<br><span class="rpcost"></span><br>Reward:<br>-Bonus chance x2</h4>
                     </div>
                     <div id=rp4 class=researchdivslocked onclick="unlockresearchp(4)">
-                        <h2 id="simbolorp4"><i class="material-icons" style="font-size:30px;line-height: 50px">laptop</i></h2>
+                        <h2 id="simbolorp4"><i class="material-icons"
+                                style="font-size:30px;line-height: 50px">laptop</i></h2>
                     </div>
                     <div class="info" id="rpi4">
                         <h1>Master Computer Science</h1>
@@ -321,11 +345,13 @@
                         <h4>Requires:<br><span class="rpcost"></span><br>Reward:<br>-Bonus multiplier +1</h4>
                     </div>
                     <div id=rp8 class=researchdivslocked onclick="unlockresearchp(8)">
-                        <h2 id="simbolorp8"><i class="material-icons" style="font-size:30px;line-height: 50px">person</i></h2>
+                        <h2 id="simbolorp8"><i class="material-icons"
+                                style="font-size:30px;line-height: 50px">person</i></h2>
                     </div>
                     <div class="info" id="rpi8">
                         <h1>Meet Dumbledore</h1>
-                        <h4>Requires:<br><span class="rpcost"></span><br>Reward:<br>-Power x2:<br>-Bonus multiplier +1</h4>
+                        <h4>Requires:<br><span class="rpcost"></span><br>Reward:<br>-Power x2:<br>-Bonus multiplier +1
+                        </h4>
                     </div>
                 </div>
                 <div id="rapp">
@@ -334,7 +360,8 @@
                     </div>
                     <div class="info" id="rai1">
                         <h1>Build a school</h1>
-                        <h4>Requires:<br><span class="rpcost"></span><br>Reward:<br>-Unlock Apprentices<br>-1 Apprentice</h4>
+                        <h4>Requires:<br><span class="rpcost"></span><br>Reward:<br>-Unlock Apprentices<br>-1 Apprentice
+                        </h4>
                     </div>
                     <div id=ra2 class=researchdivslocked onclick="unlockresearcha(2)">
                         <h2 id="simbolora2"><i class="fa fa-group" style="font-size:28px"></i></h2>
@@ -355,7 +382,8 @@
                     </div>
                     <div class="info" id="rai4">
                         <h1>Meet Bill Gates</h1>
-                        <h4>Requires:<br><span class="rpcost"></span><br>Reward:<br>-Teacher power x1.5<br>-Apprentices number x1.5</h4>
+                        <h4>Requires:<br><span class="rpcost"></span><br>Reward:<br>-Teacher power x1.5<br>-Apprentices
+                            number x1.5</h4>
                     </div>
                     <div id=ra5 class=researchdivslocked onclick="unlockresearcha(5)">
                         <h2 id="simbolora5"><i class="fa fa-book" style="font-size:28px"></i></h2>
@@ -376,28 +404,33 @@
                     </div>
                     <div class="info" id="rai7">
                         <h1>Build an University</h1>
-                        <h4>Requires:<br><span class="rpcost"></span><br>Reward:<br>-Teacher power x1.5<br>-Apprentices number x1.5</h4>
+                        <h4>Requires:<br><span class="rpcost"></span><br>Reward:<br>-Teacher power x1.5<br>-Apprentices
+                            number x1.5</h4>
                     </div>
                 </div>
 
-                <div id=rf class=researchdivs onclick="finishthislevel()"  style= "display:none; top: 341px;left: 202px;">
+                <div id=rf class=researchdivs onclick="finishthislevel()" style="display:none; top: 341px;left: 202px;">
                     <h2 id="simbolora7"><i class="fa fa-graduation-cap" style="font-size:28px"></i></h2>
                 </div>
                 <div class="info" id="rfi">
                     <h1 id="finishleveltext">Finish Level 1</h1>
-                    <h4>Requires:<br><span class="rpcost"></span><br>You will lose all the progress and start over with a bigger difficulty</h4>
+                    <h4>Requires:<br><span class="rpcost"></span><br>You will lose all the progress and start over with
+                        a bigger difficulty</h4>
                 </div>
             </div>
             <div class=contentbott id=stats>
 
                 <h1>settings</h1>
-                <button onclick="confirmReset()" id="startover" > <h2>Reset</h2></button>
+                <button onclick="confirmReset()" id="startover">
+                    <h2>Reset</h2>
+                </button>
                 <div id="reset">
-                    <h4 style="margin:0; position:absolute; top:40px" >You need to reset to get research points</h4>
-                    <h4 id="nextstart" style="margin:0; position:absolute; top:60px">Next reset: + <span id=nextrp>0</span> research points<h4>
+                    <h4 style="margin:0; position:absolute; top:40px">You need to reset to get research points</h4>
+                    <h4 id="nextstart" style="margin:0; position:absolute; top:60px">Next reset: + <span
+                            id=nextrp>0</span> research points<h4>
                 </div>
-                        <h3 id="tuned" style="margin: 0;top: 150px;width: 100%;position: absolute;text-align: center;">To stay tuned on my games</h3>
-<iframe id=iframefb src="https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2FMetalStar-Games-1707247589544384%2F&tabs&width=340&height=70&small_header=true&adapt_container_width=true&hide_cover=false&show_facepile=false&appId" width=340 height=70 style="overflow:hidden;position:absolute;top:180px;left:34px" scrolling=no frameborder=0 allowTransparency=true></iframe>
+                <h3 id="tuned" style="margin: 0;top: 150px;width: 100%;position: absolute;text-align: center;">To stay
+                    tuned on my games</h3>
 
                 <div id="themecolor" style="height:0px">
                     <button onclick="abrefechacolors()" id=themebutton>Theme color</button>
@@ -420,6 +453,7 @@
 </body>
 <script src="style/explosion.js"></script>
 <!--credits to http://www.gameplaypassion.com/-->
+<script src="style/utils.js"></script>
 <script src="style/script.js"></script>
 <script src="style/clicks.js"></script>
 
